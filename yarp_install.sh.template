@@ -1,0 +1,15 @@
+export MY_CODE_DIR=[REPLACE HERE WITH YOUR PREFERRED CODE DIRECTORY]
+
+mkdir $MY_CODE_DIR
+mkdir $MY_CODE_DIR/bin
+sudo apt-get install libace-dev
+sudo apt-get install cmake
+cd $MY_CODE_DIR
+git clone https://github.com/robotology/yarp.git
+cd yarp
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MY_CODE_DIR/bin -DINSTALL_WITH_RPATH:STRING=ON -DCREATE_LIB_MATH:STRING=ON
+make
+make install
+git clone https://github.com/robotology/icub-main.git ./icub
