@@ -16,12 +16,12 @@ INCLUDE_DIRECTORIES(${YARP_INCLUDE_DIRS})
 SET(ENABLE_athletebot TRUE CACHE BOOLEAN "we want to use athletebot")
 
 # Search for source code.
-SET(folder_source athletebot/AthleteBot.cpp adder.cpp add_athletebot.cpp yarpdev.cpp)
-SET(folder_header athletebot/AthleteBot.h adder.h)
+SET(folder_source src/AthleteBot.cpp adder.cpp add_athletebot.cpp yarpdev.cpp)
+SET(folder_header src/AthleteBot.h adder.h)
 SOURCE_GROUP("Source Files" FILES ${folder_source})
 SOURCE_GROUP("Header Files" FILES ${folder_header})
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/athletebot)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src)
 
 # Set up our main executable.
 IF (folder_source)
