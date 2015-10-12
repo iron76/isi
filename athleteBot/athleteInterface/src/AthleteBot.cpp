@@ -1,9 +1,10 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
 /*
- * Copyright: (C) 2010 RobotCub Consortium
- * Author: Paul Fitzpatrick
+ * Copyright (C) 2007 RobotCub Consortium
+ * Authors: Paul Fitzpatrick
  * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
+ *
  */
 
 #include "AthleteBot.h"
@@ -50,7 +51,7 @@ void AthleteBot::init() {
     for (int k=0; k<MAXRND; k++) {
         rnds[k] = int(Random::normal(0,255));
     }
-
+    
     fore.resize(64,64);
     fore.zero();
     m_tx = back.width()/2;
@@ -73,24 +74,29 @@ void scramble(unsigned char& ch, float f) {
 
 
 bool AthleteBot::open(yarp::os::Searchable& config) {
-    ConstString backFile = config.check("background",Value(""),
+    ConstString backFile = config.check("background",Value("textures/back.ppm"),
                                         "background image to use").asString();
     if (backFile!="") {
         yarp::sig::file::read(back,backFile.c_str());
     }
-    ConstString foreFile = config.check("target",Value(""),
+    ConstString foreFile = config.check("target",Value("textures/fore.ppm"),
                                         "target image to use").asString();
     if (foreFile!="") {
         yarp::sig::file::read(fore,foreFile.c_str());
     }
     noiseLevel = config.check("noise",Value(0.05),
                               "pixel noise level").asDouble();
-
+    
     xScale = config.check("sx",Value(1.0),
                           "scaling for x coordinate").asDouble();
     yScale = config.check("sy",Value(1.0),
                           "scaling for y coordinate").asDouble();
-
+    
+    lifetime = config.check("lifetime",Value(-1.0),
+                            "device should exist for this length of time (in seconds)").asDouble();
+    if (lifetime>=0) {
+        start();
+    }
     return true;
 }
 
@@ -129,7 +135,7 @@ bool AthleteBot::getImage(yarp::sig::ImageOf<yarp::sig::PixelRgb>& image) {
     back.safePixel(-1,-1) = PixelRgb(255,0,0);
     loc[0] = m_dx;
     loc[1] = m_dy;
-
+    
     double m_dx_scaled = m_dx*xScale;
     double m_dy_scaled = m_dy*yScale;
     IMGFOR(image,x,y) {
@@ -138,15 +144,15 @@ bool AthleteBot::getImage(yarp::sig::ImageOf<yarp::sig::PixelRgb>& image) {
         image(x,y) = back.safePixel(x0,y0);
         
         if (fore.isPixel(int(x0-m_tx),int(y0-m_ty))) {
-         PixelRgb& pix = fore(int(x0-m_tx),int(y0-m_ty));
-         if (pix.r<200||pix.g>100||pix.b>100) {
-             image(x,y) = pix;
-         }
-     }
+            PixelRgb& pix = fore(int(x0-m_tx),int(y0-m_ty));
+            if (pix.r<200||pix.g>100||pix.b>100) {
+                image(x,y) = pix;
+            }
+        }
     }
     IMGFOR(image,x2,y2) {
         PixelRgb& pix = image(x2,y2);
-        float f = noiseLevel;
+        float f = (float)(noiseLevel);
         scramble(pix.r,f);
         scramble(pix.g,f);
         scramble(pix.b,f);
@@ -154,4 +160,11 @@ bool AthleteBot::getImage(yarp::sig::ImageOf<yarp::sig::PixelRgb>& image) {
     Time::delay(0.1); // simulated hardware delay
     return true;
 }
-    
+
+void AthleteBot::run() {
+    if (lifetime>=0) {
+        Time::delay(lifetime);
+        yarp::os::exit(0);
+    }
+}
+
