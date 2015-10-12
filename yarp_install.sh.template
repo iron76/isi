@@ -13,3 +13,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MY_CODE_DIR/bin -DINSTALL_WITH_RPATH:STRIN
 make
 make install
 git clone https://github.com/robotology/icub-main.git ./icub
+cd icub
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MY_CODE_DIR/bin -DINSTALL_WITH_RPATH:STRING=ON
+make
+mkae install
