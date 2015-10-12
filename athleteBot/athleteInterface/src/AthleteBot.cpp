@@ -103,12 +103,6 @@ bool AthleteBot::open(yarp::os::Searchable& config) {
 
 // IFrameGrabberImage
 bool AthleteBot::getImage(yarp::sig::ImageOf<yarp::sig::PixelRgb>& image) {
-    if (fabs(dpos[0])>0.001||fabs(dpos[0])>0.001) {
-        pos[0] = m_dx+dpos[0];
-        dpos[0] = 0;
-        pos[1] = m_dy+dpos[1];
-        dpos[1] = 0;
-    }
     pos[0] += vel[0];
     pos[1] += vel[1];
     double xx = pos[0];

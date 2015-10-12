@@ -43,7 +43,7 @@ private:
     int m_w, m_h;
     double xScale, yScale;
     double noiseLevel;
-    yarp::sig::Vector pos, dpos, vel, speed, acc, loc, amp;
+    yarp::sig::Vector pos, vel, speed, acc, loc, amp;
     yarp::sig::ImageOf<yarp::sig::PixelRgb> back, fore;
     double lifetime;
     
@@ -54,7 +54,6 @@ public:
         m_w = 128;
         m_h = 128;
         pos.size(njoints);
-        dpos.size(njoints);
         vel.size(njoints);
         speed.size(njoints);
         acc.size(njoints);
@@ -64,7 +63,6 @@ public:
         yScale = 1;
         for (int i=0; i<njoints; i++) {
             pos[i] = 0;
-            dpos[i] = 0;
             vel[i] = 0;
             speed[i] = 0;
             acc[i] = 0;
@@ -118,17 +116,11 @@ public:
     
     
     virtual bool relativeMove(int j, double delta) {
-        if (j<njoints) {
-            dpos[j] = delta;
-        }
         return true;
     }
     
     
     virtual bool relativeMove(const double *deltas) {
-        for (int i=0; i<njoints; i++) {
-            dpos[i] = deltas[i];
-        }
         return true;
     }
     
@@ -222,10 +214,6 @@ public:
     }
     
     virtual bool resetEncoder(int j) {
-        if (j<njoints) {
-            pos[j] = 0;
-            dpos[j] = 0;
-        }
         return true;
     }
     
