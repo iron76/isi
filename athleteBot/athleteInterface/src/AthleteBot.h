@@ -29,6 +29,8 @@ public IEncodersTimed,
 public IFrameGrabberImage,
 public IControlCalibration2,
 public IControlLimits,
+public IInteractionMode,
+public IControlMode,
 public DeviceResponder,
 public yarp::os::Thread
 {
@@ -404,6 +406,88 @@ public:
     virtual bool setLimits(int axis, double min, double max)
     {
         fprintf(stderr, "AthleteBot: set limits\n");
+        return true;
+    }
+
+    //IInteractionMode
+    virtual bool getInteractionMode(int axis, yarp::dev::InteractionModeEnum* mode)
+    {
+        *mode = (yarp::dev::InteractionModeEnum) VOCAB_IM_STIFF;
+        return true;
+    }
+    
+    virtual bool getInteractionModes(int n_joints, int *joints, yarp::dev::InteractionModeEnum* modes)
+    {
+        if (!modes) return false;
+        for(int i=0; i<n_joints; i++)
+            modes[i] = (yarp::dev::InteractionModeEnum) VOCAB_IM_STIFF;
+        return true;
+    }
+    
+    virtual bool getInteractionModes(yarp::dev::InteractionModeEnum* modes)
+    {
+        for (int i=0; i<njoints; i++) {
+            modes[i] = (yarp::dev::InteractionModeEnum) VOCAB_IM_STIFF;
+        }
+        return true;
+    }
+    
+    virtual bool setInteractionMode(int axis, yarp::dev::InteractionModeEnum mode)
+    {
+        return true;
+    }
+    
+    virtual bool setInteractionModes(int n_joints, int *joints, yarp::dev::InteractionModeEnum* modes)
+    {
+        return true;
+    }
+    
+    virtual bool setInteractionModes(yarp::dev::InteractionModeEnum* modes)
+    {
+        return true;
+    }
+    //IControlMode
+    virtual bool setPositionMode(int j)
+    {
+        return true;
+    }
+    
+    virtual bool setVelocityMode(int j)
+    {
+        return true;
+    }
+    
+    virtual bool setTorqueMode(int j)
+    {
+        return true;
+    }
+    
+    virtual bool setImpedancePositionMode(int j)
+    {
+        return true;
+    }
+    
+    virtual bool setImpedanceVelocityMode(int j)
+    {
+        return true;
+    }
+    
+    virtual bool setOpenLoopMode(int j)
+    {
+        return true;
+    }
+    
+    virtual bool getControlMode(int j, int *mode)
+    {
+        *mode = (yarp::dev::InteractionModeEnum) VOCAB_CM_POSITION;
+        return true;
+    }
+    
+    virtual bool getControlModes(int *modes)
+    {
+        for (int i=0; i<njoints; i++) {
+            modes[i] = (yarp::dev::InteractionModeEnum) VOCAB_CM_POSITION;
+        }
         return true;
     }
     
