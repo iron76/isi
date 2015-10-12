@@ -9,19 +9,19 @@
 #include <yarp/os/Network.h>
 #include <yarp/dev/Drivers.h>
 
-#include <FakeBot.h>
+#include <AthleteBot.h>
 
 using namespace yarp::os;
 using namespace yarp::dev;
 
-#define ENABLE_fakebot (1)
+#define ENABLE_athletebot (1)
 
-void add_fakebot() {
-#if ENABLE_fakebot
+void add_athletebot() {
+#if ENABLE_athletebot
     DriverCreator *factory = 
-        new DriverCreatorOf<FakeBot>("fakebot",
+        new DriverCreatorOf<AthleteBot>("athletebot",
                                            "",
-                                           "FakeBot");
+                                           "AthleteBot");
     Drivers::factory().add(factory); // hand factory over to YARP
 #endif
 }

@@ -9,18 +9,18 @@ On Linux type:
 
    cmake .
    make
-   # Edit fakebot.ini and change USERNAME to something you like
-   ./run_fakebot --file fakebot.ini
+   # Edit athletebot.ini and change USERNAME to something you like
+   ./run_athletebot --file athletebot.ini
 
 On Windows with MSVC
 
    Use cmake and your compiler.
-   Copy run_fakebot.exe from the Debug or Release subdirectory to the
-   current directory (with fakebot.ini, back.ppm, and fore.ppm in it).
-   Edit fakebot.ini and change USERNAME to something you like
-   Run the program as "run_fakebot --file fakebot.ini"
+   Copy run_athletebot.exe from the Debug or Release subdirectory to the
+   current directory (with athletebot.ini, back.ppm, and fore.ppm in it).
+   Edit athletebot.ini and change USERNAME to something you like
+   Run the program as "run_athletebot --file athletebot.ini"
 
-Now you can run a copy of yarpview and connect it to /USERNAME/fakebot/camera
+Now you can run a copy of yarpview and connect it to /USERNAME/athletebot/camera
 
 The simulated camera can be moved around by sending commands to 
-/USERNAME/fakebot/motor/rpc:i
+/USERNAME/athletebot/motor/rpc:i

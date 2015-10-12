@@ -6,7 +6,7 @@
  * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
  */
 
-#include "FakeBot.h"
+#include "AthleteBot.h"
 
 #include <yarp/sig/all.h>
 #include <yarp/sig/ImageFile.h>
@@ -22,7 +22,7 @@ using namespace yarp::dev;
 #define MAXRND 50000
 int rnds[MAXRND];
 
-void FakeBot::init() {
+void AthleteBot::init() {
     int m_w = 640;
     int m_h = 480;
     back.resize(m_w,m_h);
@@ -72,7 +72,7 @@ void scramble(unsigned char& ch, float f) {
 }
 
 
-bool FakeBot::open(yarp::os::Searchable& config) {
+bool AthleteBot::open(yarp::os::Searchable& config) {
     ConstString backFile = config.check("background",Value(""),
                                         "background image to use").asString();
     if (backFile!="") {
@@ -96,7 +96,7 @@ bool FakeBot::open(yarp::os::Searchable& config) {
 
 
 // IFrameGrabberImage
-bool FakeBot::getImage(yarp::sig::ImageOf<yarp::sig::PixelRgb>& image) {
+bool AthleteBot::getImage(yarp::sig::ImageOf<yarp::sig::PixelRgb>& image) {
     if (fabs(dpos[0])>0.001||fabs(dpos[0])>0.001) {
         pos[0] = m_dx+dpos[0];
         dpos[0] = 0;

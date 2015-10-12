@@ -16,11 +16,11 @@
 
 namespace yarp {
     namespace dev {
-      class FakeBot;
+      class AthleteBot;
     }
 }
 
-class yarp::dev::FakeBot : public DeviceDriver,
+class yarp::dev::AthleteBot : public DeviceDriver,
             public IPositionControl, 
             public IVelocityControl,
             public IAmplifierControl,
@@ -42,7 +42,7 @@ private:
 
     void init();
 public:
-    FakeBot() {
+    AthleteBot() {
         njoints = 2;
         m_w = 128;
         m_h = 128;
